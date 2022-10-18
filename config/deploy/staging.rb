@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 # server-based syntax
 # ======================
-# Defines a single server with a list of roles and multiple properties.
-# You can define all roles on a single server, or split them:
+# Defines a single server with a list of roles.bak and multiple properties.
+# You can define all roles.bak on a single server, or split them:
 
-# server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
-# server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
-# server "db.example.com", user: "deploy", roles: %w{db}
+# server "example.com", user: "deploy", roles.bak: %w{app db web}, my_property: :my_value
+# server "example.com", user: "deploy", roles.bak: %w{app web}, other_property: :other_value
+# server "db.example.com", user: "deploy", roles.bak: %w{db}
 
 # role-based syntax
 # ==================
@@ -46,7 +46,7 @@
 # ------------------------------------
 # server "example.com",
 #   user: "user_name",
-#   roles: %w{web app},
+#   roles.bak: %w{web app},
 #   ssh_options: {
 #     user: "user_name", # overrides user setting above
 #     keys: %w(/home/user_name/.ssh/id_rsa),

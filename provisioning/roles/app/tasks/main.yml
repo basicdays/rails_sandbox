@@ -1,0 +1,13 @@
+---
+- module_defaults:
+    ansible.builtin.apt:
+      cache_valid_time: 86400 # one day
+  block:
+  - name: Update packages
+    ansible.builtin.import_tasks: update.yml
+  - name: Import ssh tasks
+    ansible.builtin.import_tasks: ssh.yml
+  - name: Import ruby tasks
+    ansible.builtin.import_tasks: ruby.yml
+  - name: Cleanup packages
+    ansible.builtin.import_tasks: cleanup.yml

@@ -1,0 +1,13 @@
+---
+- name: Setup system
+  hosts: app
+  debugger: on_failed
+  module_defaults:
+    copy:
+      backup: true
+    lineinfile:
+      backup: true
+    xml:
+      backup: true
+  roles:
+    - app

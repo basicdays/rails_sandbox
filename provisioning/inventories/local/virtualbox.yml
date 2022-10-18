@@ -1,0 +1,10 @@
+# https://docs.ansible.com/ansible/latest/collections/community/general/virtualbox_inventory.html
+plugin: community.general.virtualbox
+network_info_path: /Ansible/Host
+query:
+  project_name: /Project/Name
+  project_service: /Project/Service
+  ansible_port: /Ansible/Port
+  ansible_user: /Ansible/User
+groups:
+  app: project_name == 'rails-sandbox' and project_service == 'app'

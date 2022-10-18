@@ -1,0 +1,88 @@
+---
+# Install `chruby`
+- name: Check if chruby exists
+  ansible.builtin.stat:
+    path: &chruby_exec /usr/local/bin/chruby-exec
+  register: chruby_exec
+- become: true
+  when: not chruby_exec.stat.exists
+  block:
+  - name: Install chruby build packages
+    ansible.builtin.apt:
+      update_cache: true
+      pkg:
+        - build-essential
+  - name: Create chruby tmp directory
+    ansible.builtin.file:
+      path: &chruby_base_path /tmp/chruby
+      state: directory
+  - name: Download chruby tarball
+    ansible.builtin.get_url:
+      url: https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz
+      checksum: sha256:7220a96e355b8a613929881c091ca85ec809153988d7d691299e0a16806b42fd
+      dest: &chruby_tarball /tmp/chruby/chruby-{{ chruby_version }}.tar.gz
+  - name: Untar chruby
+    ansible.builtin.unarchive:
+      remote_src: true
+      src: *chruby_tarball
+      dest: *chruby_base_path
+      creates: &chruby_path /tmp/chruby/chruby-{{ chruby_version }}
+  - name: Install chruby
+    ansible.builtin.command:
+      cmd: /tmp/chruby/chruby-{{ chruby_version }}/scripts/setup.sh
+      chdir: *chruby_path
+      creates: *chruby_exec
+- name: Remove chruby tmp directory
+  become: true
+  ansible.builtin.file:
+    path: *chruby_base_path
+    state: absent
+
+
+# Install `ruby-install`
+- name: Check if ruby-install exists
+  ansible.builtin.stat:
+    path: &ruby_install /usr/local/bin/ruby-install
+  register: ruby_install
+- become: true
+  when: not ruby_install.stat.exists
+  block:
+    - name: Install ruby-install build packages
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - build-essential
+    - name: Create ruby-install tmp directory
+      ansible.builtin.file:
+        path: &ruby_install_base_path /tmp/ruby-install
+        state: directory
+    - name: Download ruby-install tarball
+      ansible.builtin.get_url:
+        url: https://github.com/postmodern/ruby-install/archive/v{{ ruby_install_version }}.tar.gz
+        checksum: sha256:793fcf44dce375c6c191003c3bfd22ebc85fa296d751808ab315872f5ee0179b
+        dest: &ruby_install_tarball /tmp/ruby-install/ruby-install-{{ ruby_install_version }}.tar.gz
+    - name: Untar ruby-install
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: *ruby_install_tarball
+        dest: *ruby_install_base_path
+        creates: &ruby_install_path /tmp/ruby-install/ruby-install-{{ ruby_install_version }}
+    - name: Install ruby-install
+      community.general.make:
+        chdir: *ruby_install_path
+        target: install
+- name: Remove ruby-install tmp directory
+  become: true
+  ansible.builtin.file:
+    path: *ruby_install_base_path
+    state: absent
+
+
+- name: Install ruby
+  become: true
+  ansible.builtin.command:
+    argv:
+      - *ruby_install
+      - ruby
+      - '{{ ruby_version }}'
+    creates: /opt/rubies/ruby-{{ ruby_version }}
