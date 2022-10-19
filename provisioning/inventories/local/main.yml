@@ -1,0 +1,5 @@
+all:
+  children:
+    rails_sandbox:
+      children:
+        app:

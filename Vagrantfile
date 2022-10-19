@@ -10,6 +10,9 @@ virtual_machines = [
   }
 ].freeze
 ansible_groups = virtual_machines.each_with_object({}) do |vm, groups|
+  project_key = project_name.gsub '-', '_'
+  groups[project_key] ||= []
+  groups[project_key] << vm[:name]
   groups[vm[:service]] ||= []
   groups[vm[:service]] << vm[:name]
 end
@@ -58,7 +61,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'ansible' do |ansible|
     ansible.playbook = 'provisioning/playbooks/site.yml'
-    ansible.config_file = 'provisioning/ansible.cfg'
+    # ansible.config_file = 'provisioning/ansible.cfg'
     ansible.groups = ansible_groups
   end
 end
