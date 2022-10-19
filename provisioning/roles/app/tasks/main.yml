@@ -1,5 +1,11 @@
 ---
 - module_defaults:
+    copy:
+      backup: true
+    lineinfile:
+      backup: true
+    xml:
+      backup: true
     ansible.builtin.apt:
       cache_valid_time: 86400 # one day
   block:

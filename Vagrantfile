@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+def to_group(name)
+  name.gsub '-', '_'
+end
+
+def get_ansible_groups(project_name, vms)
+  ansible_groups = vms.each_with_object({}) do |vm, groups|
+    service_group = to_group vm[:service]
+    groups[service_group] ||= []
+    groups[service_group] << vm[:name]
+  end
+  ansible_groups["#{to_group project_name}:children"] = vms.reduce(Set[]) do |groups, vm|
+    groups.add to_group vm[:service]
+  end.to_a
+  ansible_groups
+end
+
 project_name = File.basename __dir__
 virtual_machines = [
   {
@@ -7,15 +23,13 @@ virtual_machines = [
     service: 'app',
     ssh_port: 10_100,
     primary: true
-  }
+  },
+  # {
+  #   name: 'db-1',
+  #   service: 'db',
+  #   ssh_port: 10_101
+  # }
 ].freeze
-ansible_groups = virtual_machines.each_with_object({}) do |vm, groups|
-  project_key = project_name.gsub '-', '_'
-  groups[project_key] ||= []
-  groups[project_key] << vm[:name]
-  groups[vm[:service]] ||= []
-  groups[vm[:service]] << vm[:name]
-end
 
 Vagrant.configure('2') do |config|
   # For a complete reference, please see the online documentation at
@@ -34,7 +48,7 @@ Vagrant.configure('2') do |config|
     vb.memory = '4096'
     vb.default_nic_type = 'virtio'
 
-    # Boxes weren't built with EFI enabled, need to fall back to legacy BIOS
+    # Bento boxes weren't built with EFI enabled, need to fall back to legacy BIOS
     # vb.customize ['modifyvm', :id, '--firmware', 'efi']
     vb.customize ['modifyvm', :id, '--pae', 'off']
     vb.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
@@ -61,7 +75,6 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'ansible' do |ansible|
     ansible.playbook = 'provisioning/playbooks/site.yml'
-    # ansible.config_file = 'provisioning/ansible.cfg'
-    ansible.groups = ansible_groups
+    ansible.groups = get_ansible_groups project_name, virtual_machines
   end
 end
