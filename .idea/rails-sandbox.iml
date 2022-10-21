@@ -49,6 +49,7 @@
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.23, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.17.1, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v2.1.0, chruby: ruby-3.1.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capistrano-chruby (v0.1.2, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.6.2, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.37.1, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v4.1.0, chruby: ruby-3.1.2) [gem]" level="application" />

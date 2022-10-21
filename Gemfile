@@ -52,13 +52,16 @@ gem 'bootsnap', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'capistrano', '~> 3.17.1'
-  gem 'capistrano-rails', '~> 1.6.2'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+
   gem 'rubocop', require: false
 end
 
 group :development do
+  gem 'capistrano', '~> 3.17.1', require: false
+  gem 'capistrano-chruby', '~> 0.1.2', require: false
+  gem 'capistrano-rails', '~> 1.6.2', require: false
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 

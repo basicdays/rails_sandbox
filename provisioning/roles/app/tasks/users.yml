@@ -1,0 +1,33 @@
+---
+- name: Create deploy group
+  become: true
+  ansible.builtin.group:
+    name: '{{ deploy_user }}'
+    system: true
+- name: Create deploy user
+  become: true
+  ansible.builtin.user:
+    name: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    password_lock: true
+    system: true
+    shell: /bin/bash
+- name: Add ssh authorized key (deploy)
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.posix.authorized_key:
+    user: '{{ deploy_user }}'
+    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: Add ansible user to deploy group
+  become: true
+  when: deploy_user != ansible_user
+  ansible.builtin.user:
+    name: '{{ ansible_user }}'
+    groups: '{{ deploy_user }}'
+    append: true
+- name: Add ssh authorized key (ansible_user)
+  when: ansible_user != deploy_user
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"

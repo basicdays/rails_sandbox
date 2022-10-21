@@ -1,5 +1,0 @@
----
-- name: Add ssh authorized key
-  ansible.posix.authorized_key:
-    user: '{{ ansible_user }}'
-    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"

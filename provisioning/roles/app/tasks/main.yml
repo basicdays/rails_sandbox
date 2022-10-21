@@ -1,19 +1,25 @@
 ---
 - module_defaults:
-    copy:
+    ansible.builtin.copy:
       backup: true
-    lineinfile:
+    ansible.builtin.lineinfile:
       backup: true
-    xml:
+    ansible.builtin.xml:
       backup: true
     ansible.builtin.apt:
       cache_valid_time: 86400 # one day
+#  vars:
+#    ansible_common_remote_group: ansible
   block:
   - name: Update packages
     ansible.builtin.import_tasks: update.yml
-  - name: Import ssh tasks
-    ansible.builtin.import_tasks: ssh.yml
-  - name: Import ruby tasks
+  - name: Setup prereqs
+    ansible.builtin.import_tasks: prereqs.yml
+  - name: Setup users
+    ansible.builtin.import_tasks: users.yml
+  - name: Setup ruby
     ansible.builtin.import_tasks: ruby.yml
+  - name: Setup application
+    ansible.builtin.import_tasks: app.yml
   - name: Cleanup packages
     ansible.builtin.import_tasks: cleanup.yml

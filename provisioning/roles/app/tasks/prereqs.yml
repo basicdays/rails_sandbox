@@ -1,0 +1,8 @@
+---
+- name: Install prereq packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      # Needed to help ansible become other non-priv users and move tmp files around
+      - acl

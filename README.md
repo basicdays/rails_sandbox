@@ -28,6 +28,7 @@ brew install ansible ansible-lint
   - [puma](https://puma.io/puma/)
   - [Ruby on Rails](https://guides.rubyonrails.org/)
   - [rake](https://github.com/ruby/rake#readme)
+    - [rake manual](https://ruby.github.io/rake/)
     - [Rakefile Format](https://github.com/ruby/rake/blob/master/doc/rakefile.rdoc)
 - [Capistrano](https://capistranorb.com/documentation/overview/what-is-capistrano/)
   - [Capistrano::Bundle](https://github.com/capistrano/bundler#readme)

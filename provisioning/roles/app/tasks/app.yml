@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - libsqlite3-dev
+      - sqlite3
+- name: Create application directory
+  become: true
+  ansible.builtin.file:
+    path: /var/www/{{ application_name }}
+    state: directory
+    recurse: true
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
