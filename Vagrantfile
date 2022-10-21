@@ -21,8 +21,11 @@ virtual_machines = [
   {
     name: 'app-1',
     service: 'app',
-    ssh_port: 10_100,
-    primary: true
+    primary: true,
+    ports: {
+      ssh: [10_100, 22],
+      http: [10_101, 80]
+    }
   },
   # {
   #   name: 'db-1',
@@ -61,14 +64,16 @@ Vagrant.configure('2') do |config|
     vb.customize ['guestproperty', 'set', :id, '/Ansible/User', 'vagrant']
   end
 
-  virtual_machines.each do |name:, service:, ssh_port:, primary: false|
+  virtual_machines.each do |name:, service:, ports:, primary: false|
     config.vm.define name, primary: primary do |inst|
       inst.vm.hostname = name
-      inst.vm.network 'forwarded_port', id: 'ssh', host: ssh_port, guest: 22
+      ports.each do |id, (host, guest)|
+        inst.vm.network 'forwarded_port', id: id, host: host, guest: guest
+      end
       inst.vm.provider 'virtualbox' do |vb|
         vb.name = "#{project_name}-#{name}"
         vb.customize ['guestproperty', 'set', :id, '/Project/Service', service]
-        vb.customize ['guestproperty', 'set', :id, '/Ansible/Port', ssh_port.to_s]
+        vb.customize ['guestproperty', 'set', :id, '/Ansible/Port', ports[:ssh][0].to_s]
       end
     end
   end

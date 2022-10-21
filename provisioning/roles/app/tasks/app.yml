@@ -1,16 +1,54 @@
 ---
-- name: Install packages
+- name: Install application packages
   become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
+      - build-essential
       - libsqlite3-dev
       - sqlite3
-- name: Create application directory
+
+- name: Create application directories
   become: true
   ansible.builtin.file:
-    path: /var/www/{{ application_name }}
+    path: '{{ item }}'
     state: directory
     recurse: true
     owner: '{{ deploy_user }}'
     group: '{{ deploy_user }}'
+  loop:
+    - /var/www/{{ application_name }}
+    - /var/www/{{ application_name }}/shared
+    - /var/www/{{ application_name }}/shared/log
+- name: Create application puma config
+  become: true
+  ansible.builtin.copy:
+    src: puma.rb
+    dest: /var/www/{{ application_name }}/shared/
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+# Needed so that systemd doesn't create log files with owner of root
+- name: Create application log files
+  become: true
+  ansible.builtin.file:
+    dest: /var/www/{{ application_name }}/shared/log/{{ item }}
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    state: touch
+    access_time: preserve
+    modification_time: preserve
+  loop:
+    - puma_access.log
+    - puma_error.log
+
+- name: Create systemd application service
+  become: true
+  ansible.builtin.copy:
+    src: '{{ application_name }}.service'
+    dest: /etc/systemd/system/
+  notify: Reload systemd daemon
+- name: Enable systemd application service
+  become: true
+  ansible.builtin.systemd:
+    name: '{{ application_name }}.service'
+    enabled: true

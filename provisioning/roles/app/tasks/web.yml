@@ -1,0 +1,27 @@
+---
+- name: Install nginx
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      # Needed to help ansible become other non-priv users and move tmp files around
+      - nginx
+- name: Disable default nginx site
+  become: true
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload nginx
+
+- name: Add application nginx config
+  become: true
+  ansible.builtin.copy:
+    src: '{{ application_name }}.nginx'
+    dest: /etc/nginx/sites-available
+- name: Enable application nginx config
+  become: true
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/{{ application_name }}.nginx
+    dest: /etc/nginx/sites-enabled/{{ application_name }}.nginx
+    state: link
+  notify: Reload nginx

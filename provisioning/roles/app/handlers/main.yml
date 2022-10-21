@@ -1,2 +1,10 @@
 ---
-# handlers file for system
+- name: Reload systemd daemon
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+- name: Reload nginx
+  become: true
+  ansible.builtin.systemd:
+    name: nginx.service
+    state: reloaded

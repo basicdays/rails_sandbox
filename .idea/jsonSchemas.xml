@@ -13,6 +13,11 @@
                 <list>
                   <Item>
                     <option name="pattern" value="true" />
+                    <option name="path" value="**/handlers/*.yml" />
+                    <option name="mappingKind" value="Pattern" />
+                  </Item>
+                  <Item>
+                    <option name="pattern" value="true" />
                     <option name="path" value="**/tasks/*.yml" />
                     <option name="mappingKind" value="Pattern" />
                   </Item>

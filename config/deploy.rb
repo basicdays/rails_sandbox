@@ -4,6 +4,10 @@
 lock '~> 3.17.1'
 set :chruby_ruby, 'ruby-3.1.2'
 
+# Prevents error when running through IntelliJ run configuration
+# https://github.com/mattbrictson/airbrussh/issues/96
+set :format_options, truncate: false if IO.console.nil?
+
 set :application, 'rails-sandbox'
 set :repo_url, 'git@github.com:basicdays/rails-sandbox.git'
 
@@ -13,8 +17,11 @@ set :branch, 'main'
 # allow rails to migrate
 set :migration_role, :app
 
-# append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 # append :linked_files, 'config/database.yml', 'config/secrets.yml'
+
+set :puma_service_unit_name, fetch(:application)
+set :nginx_config_name, "#{fetch(:application)}.nginx"
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"

@@ -8,8 +8,6 @@
       backup: true
     ansible.builtin.apt:
       cache_valid_time: 86400 # one day
-#  vars:
-#    ansible_common_remote_group: ansible
   block:
   - name: Update packages
     ansible.builtin.import_tasks: update.yml
@@ -21,5 +19,7 @@
     ansible.builtin.import_tasks: ruby.yml
   - name: Setup application
     ansible.builtin.import_tasks: app.yml
+  - name: Setup web server
+    ansible.builtin.import_tasks: web.yml
   - name: Cleanup packages
     ansible.builtin.import_tasks: cleanup.yml

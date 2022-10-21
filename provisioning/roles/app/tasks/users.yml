@@ -18,6 +18,13 @@
   ansible.posix.authorized_key:
     user: '{{ deploy_user }}'
     key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+- name: Grant application service abilities
+  become: true
+  ansible.builtin.copy:
+    src: 99_deploy
+    dest: /etc/sudoers.d/
+    mode: 0440
+    validate: /usr/sbin/visudo -cf %s
 
 - name: Add ansible user to deploy group
   become: true

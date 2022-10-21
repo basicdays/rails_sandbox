@@ -51,6 +51,7 @@
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v2.1.0, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-chruby (v0.1.2, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.6.2, chruby: ruby-3.1.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capistrano3-puma (v5.2.0, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.37.1, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v4.1.0, chruby: ruby-3.1.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.10, chruby: ruby-3.1.2) [gem]" level="application" />
@@ -131,6 +132,7 @@
         <option value="active_record:multi_db" />
         <option value="application_record" />
         <option value="benchmark" />
+        <option value="capistrano:nginx_puma:config" />
         <option value="channel" />
         <option value="controller" />
         <option value="generator" />
@@ -161,6 +163,7 @@
         <option value="active_record:multi_db" />
         <option value="application_record" />
         <option value="benchmark" />
+        <option value="capistrano:nginx_puma:config" />
         <option value="channel" />
         <option value="controller" />
         <option value="generator" />

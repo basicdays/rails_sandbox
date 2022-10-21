@@ -1,6 +1,6 @@
 ---
 - name: Setup app
   hosts: app
-  debugger: on_failed
+#  debugger: on_failed
   roles:
     - app

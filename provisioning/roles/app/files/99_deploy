@@ -1,0 +1,3 @@
+%deploy ALL= NOPASSWD: /usr/bin/systemctl start rails-sandbox
+%deploy ALL= NOPASSWD: /usr/bin/systemctl stop rails-sandbox
+%deploy ALL= NOPASSWD: /usr/bin/systemctl restart rails-sandbox
