@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
 def to_group(name)
-  name.gsub '-', '_'
+  name.gsub('-', '_')
 end
 
 def to_hostname(name)
-  name.gsub '_', '-'
+  name.gsub('_', '-')
 end
 
 def get_ansible_groups(project_name, vms)
   ansible_groups = vms.each_with_object({}) do |vm, groups|
-    service_group = to_group vm[:service]
+    service_group = to_group(vm[:service])
     groups[service_group] ||= []
     groups[service_group] << vm[:name]
   end
-  ansible_groups["#{to_group project_name}:children"] = vms.reduce(Set[]) do |groups, vm|
-    groups.add to_group vm[:service]
+  ansible_groups["#{to_group(project_name)}:children"] = vms.reduce(Set[]) do |groups, vm|
+    groups.add(to_group(vm[:service]))
   end.to_a
   ansible_groups
 end
 
-project_name = File.basename __dir__
+project_name = File.basename(__dir__)
 virtual_machines = [
   {
     name: 'app-1',
@@ -50,7 +50,7 @@ Vagrant.configure('2') do |config|
   # disable default shared folder
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  config.vm.provider 'virtualbox' do |vb|
+  config.vm.provider :virtualbox do |vb|
     vb.cpus = 2
     vb.memory = '4096'
     vb.default_nic_type = 'virtio'
@@ -69,22 +69,22 @@ Vagrant.configure('2') do |config|
   end
 
   virtual_machines.each do |name:, service:, ports:, primary: false|
-    hostname = to_hostname name
+    hostname = to_hostname(name)
     config.vm.define hostname, primary: primary do |inst|
       inst.vm.hostname = hostname
       ports.each do |id, (host, guest)|
-        inst.vm.network 'forwarded_port', id: id, host: host, guest: guest
+        inst.vm.network :forwarded_port, id: id, host: host, guest: guest
       end
-      inst.vm.provider 'virtualbox' do |vb|
-        vb.name = to_hostname "#{project_name}-#{hostname}"
+      inst.vm.provider :virtualbox do |vb|
+        vb.name = to_hostname("#{project_name}-#{hostname}")
         vb.customize ['guestproperty', 'set', :id, '/Project/Service', service]
         vb.customize ['guestproperty', 'set', :id, '/Ansible/Port', ports[:ssh][0].to_s]
       end
     end
   end
 
-  config.vm.provision 'ansible' do |ansible|
+  config.vm.provision :ansible do |ansible|
     ansible.playbook = 'provisioning/playbooks/site.yml'
-    ansible.groups = get_ansible_groups project_name, virtual_machines
+    ansible.groups = get_ansible_groups(project_name, virtual_machines)
   end
 end

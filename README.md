@@ -1,20 +1,58 @@
-# Ansible Provisioning
+# Rails Sandbox
+
+This project is a sandbox environment to test out Capistrano deployments and Ansible provisioning. The rails
+project is just a run through of the rails tutorial.
+
 
 ## Setup
 
 ```shell
-brew install vagrant ansible ansible-lint
+brew install chruby ruby-install vagrant ansible ansible-lint
+```
+
+### Config chruby
+
+[chruby config docs](https://github.com/postmodern/chruby#configuration): Add following to the `~/.bashrc` or `~/.zshrc` file:
+
+```shell
+source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh # Or run `brew info chruby` to find out installed directory
+```
+
+### Install ruby version
+
+`cd` to project directory and run the following:
+
+```shell
+ruby-install $(cat .ruby-version)
+```
+
+### To switch terminal to project ruby
+
+`cd` to project directory and run the following:
+
+```shell
+chruby .
 ```
 
 
-# VBox deploy
+## VBox test environment deployment
+
+Make sure you have an SSH key generated and its public key available at `~/.ssh/id_rsa.pub`.
+
+To spin up a virtual box test environment and deploy the rails app in a "production" environment.
 
 ```shell
 vagrant up && bin/cap vbox deploy
 ```
 
+To update virtualbox provisioning:
 
-## Docs
+```shell
+vagrant up --provision
+```
+
+
+## Docs and References
 
 - Ansible
   - [User Guide](https://docs.ansible.com/ansible/latest/user_guide/index.html#table-of-contents)
@@ -49,9 +87,9 @@ vagrant up && bin/cap vbox deploy
   - [Deploying Rails Applications with the Puma Web Server](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server)
 
 
-## Notes
+## Scratch Notes
 
-Systemd unit generation:
+Systemd service generation:
 
 ```
  ✘  ~/wip/sandbox/rails_sandbox   main ±  ./bin/cap vbox puma:systemd:config puma:systemd:enable
