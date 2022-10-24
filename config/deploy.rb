@@ -8,8 +8,8 @@ set :chruby_ruby, 'ruby-3.1.2'
 # https://github.com/mattbrictson/airbrussh/issues/96
 set :format_options, truncate: false if IO.console.nil?
 
-set :application, 'rails-sandbox'
-set :repo_url, 'git@github.com:basicdays/rails-sandbox.git'
+set :application, 'rails_sandbox'
+set :repo_url, 'git@github.com:basicdays/rails_sandbox.git'
 
 # Default branch is :master
 set :branch, 'main'

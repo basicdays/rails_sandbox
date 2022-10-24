@@ -4,6 +4,10 @@ def to_group(name)
   name.gsub '-', '_'
 end
 
+def to_hostname(name)
+  name.gsub '_', '-'
+end
+
 def get_ansible_groups(project_name, vms)
   ansible_groups = vms.each_with_object({}) do |vm, groups|
     service_group = to_group vm[:service]
@@ -65,13 +69,14 @@ Vagrant.configure('2') do |config|
   end
 
   virtual_machines.each do |name:, service:, ports:, primary: false|
-    config.vm.define name, primary: primary do |inst|
-      inst.vm.hostname = name
+    hostname = to_hostname name
+    config.vm.define hostname, primary: primary do |inst|
+      inst.vm.hostname = hostname
       ports.each do |id, (host, guest)|
         inst.vm.network 'forwarded_port', id: id, host: host, guest: guest
       end
       inst.vm.provider 'virtualbox' do |vb|
-        vb.name = "#{project_name}-#{name}"
+        vb.name = to_hostname "#{project_name}-#{hostname}"
         vb.customize ['guestproperty', 'set', :id, '/Project/Service', service]
         vb.customize ['guestproperty', 'set', :id, '/Ansible/Port', ports[:ssh][0].to_s]
       end

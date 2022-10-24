@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="cap vbox deploy" type="CapistranoRunConfigurationType" factoryName="Capistrano">
-    <module name="rails-sandbox" />
+    <module name="rails_sandbox" />
     <CAPISTRANO_RUN_CONFIGURATION NAME="RUBY_ARGS" VALUE="" />
     <CAPISTRANO_RUN_CONFIGURATION NAME="WORK DIR" VALUE="$PROJECT_DIR$" />
     <CAPISTRANO_RUN_CONFIGURATION NAME="SHOULD_USE_SDK" VALUE="false" />

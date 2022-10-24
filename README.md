@@ -54,17 +54,17 @@ vagrant up && bin/cap vbox deploy
 Systemd unit generation:
 
 ```
- ✘  ~/wip/sandbox/rails-sandbox   main ±  ./bin/cap vbox puma:systemd:config puma:systemd:enable
+ ✘  ~/wip/sandbox/rails_sandbox   main ±  ./bin/cap vbox puma:systemd:config puma:systemd:enable
 /Users/paulsanchez/.gem/ruby/3.1.2/gems/capistrano3-puma-5.2.0/lib/capistrano/puma.rb:47: warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
 /Users/paulsanchez/.gem/ruby/3.1.2/gems/capistrano3-puma-5.2.0/lib/capistrano/puma.rb:47: warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
 00:00 puma:systemd:config
-      Uploading /tmp/puma_rails-sandbox_vbox.service 100.0%
-      01 sudo mv /tmp/puma_rails-sandbox_vbox.service /etc/systemd/system/
+      Uploading /tmp/puma_rails_sandbox_vbox.service 100.0%
+      01 sudo mv /tmp/puma_rails_sandbox_vbox.service /etc/systemd/system/
     ✔ 01 deploy@localhost 0.009s
       02 sudo /bin/systemctl daemon-reload
     ✔ 02 deploy@localhost 0.214s
 00:00 puma:systemd:enable
-      01 sudo /bin/systemctl enable puma_rails-sandbox_vbox
-      01 Created symlink /etc/systemd/system/multi-user.target.wants/puma_rails-sandbox_vbox.service → /etc/systemd/system/puma_rails-sandbox_vbox.service.
+      01 sudo /bin/systemctl enable puma_rails_sandbox_vbox
+      01 Created symlink /etc/systemd/system/multi-user.target.wants/puma_rails_sandbox_vbox.service → /etc/systemd/system/puma_rails_sandbox_vbox.service.
     ✔ 01 deploy@localhost 0.258s
 ```

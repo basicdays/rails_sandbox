@@ -7,4 +7,4 @@ query:
   ansible_port: /Ansible/Port
   ansible_user: /Ansible/User
 groups:
-  app: project_name == 'rails-sandbox' and project_service == 'app'
+  app: project_name == 'rails_sandbox' and project_service == 'app'
