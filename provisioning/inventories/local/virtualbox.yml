@@ -2,9 +2,12 @@
 plugin: community.general.virtualbox
 network_info_path: /Ansible/Host
 query:
-  project_name: /Project/Name
-  project_service: /Project/Service
   ansible_port: /Ansible/Port
   ansible_user: /Ansible/User
+  project_hostname: /Project/Hostname
+  project_internal_ip: /Project/InternalIP
+  project_name: /Project/Name
+  project_service: /Project/Service
 groups:
   app: project_name == 'rails_sandbox' and project_service == 'app'
+  db: project_name == 'rails_sandbox' and project_service == 'db'

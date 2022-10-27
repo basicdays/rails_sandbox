@@ -1,0 +1,18 @@
+---
+- name: DB role tasks
+  module_defaults:
+    ansible.builtin.copy:
+      backup: true
+    ansible.builtin.lineinfile:
+      backup: true
+    ansible.builtin.xml:
+      backup: true
+    ansible.builtin.apt:
+      cache_valid_time: 86400 # one day
+    community.postgresql.postgresql_pg_hba:
+      backup: true
+  block:
+    - name: Install postgresql prereqs
+      ansible.builtin.import_tasks: prereqs.yml
+    - name: Install Postgresql
+      ansible.builtin.import_tasks: postgresql.yml

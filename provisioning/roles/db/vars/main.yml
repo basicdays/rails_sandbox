@@ -1,0 +1,5 @@
+---
+pgdatabase: rails_sandbox
+pguser: rails_sandbox
+# todo: naive clear text password, could use vault
+pgpassword: password

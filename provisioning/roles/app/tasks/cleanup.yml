@@ -1,6 +1,0 @@
----
-- name: Cleanup packages
-  become: true
-  ansible.builtin.apt:
-    autoclean: true
-    autoremove: true

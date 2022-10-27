@@ -1,0 +1,8 @@
+---
+- name: Install prereq packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      # Needed to allow postgresql ansible collection to manage postgresql
+      - python3-psycopg2

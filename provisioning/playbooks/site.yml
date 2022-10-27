@@ -1,6 +1,17 @@
 ---
 - name: Setup app
+  #  debugger: on_failed
   hosts: app
-#  debugger: on_failed
+  vars_files:
+    - vars/main.yml
   roles:
+    - common
     - app
+- name: Setup db
+  #  debugger: on_failed
+  hosts: db
+  vars_files:
+    - vars/main.yml
+  roles:
+    - common
+    - db

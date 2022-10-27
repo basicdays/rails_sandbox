@@ -1,0 +1,20 @@
+---
+- name: Common role tasks
+  module_defaults:
+    ansible.builtin.copy:
+      backup: true
+    ansible.builtin.lineinfile:
+      backup: true
+    ansible.builtin.xml:
+      backup: true
+    ansible.builtin.apt:
+      cache_valid_time: 86400 # one day
+  block:
+    - name: Update packages
+      ansible.builtin.import_tasks: update.yml
+    - name: Setup hosts
+      ansible.builtin.import_tasks: hosts.yml
+    - name: Setup prereqs
+      ansible.builtin.import_tasks: prereqs.yml
+    - name: Setup users
+      ansible.builtin.import_tasks: users.yml

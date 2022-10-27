@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:14.5
+    environment:
+      POSTGRES_PASSWORD: $PGPASSWORD
+      POSTGRES_USER: $PGUSER
+      POSTGRES_DB: $PGDATABASE
+    ports:
+      - '$PGPORT:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cache:
+    image: redis:7.0
+    ports:
+      - '$REDIS_PORT:6379'
+
+volumes:
+  pgdata:

@@ -3,3 +3,4 @@ all:
     rails_sandbox:
       children:
         app:
+        db:

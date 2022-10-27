@@ -1,5 +1,6 @@
 ---
-- module_defaults:
+- name: App role tasks
+  module_defaults:
     ansible.builtin.copy:
       backup: true
     ansible.builtin.lineinfile:
@@ -9,17 +10,11 @@
     ansible.builtin.apt:
       cache_valid_time: 86400 # one day
   block:
-  - name: Update packages
-    ansible.builtin.import_tasks: update.yml
-  - name: Setup prereqs
-    ansible.builtin.import_tasks: prereqs.yml
-  - name: Setup users
-    ansible.builtin.import_tasks: users.yml
-  - name: Setup ruby
-    ansible.builtin.import_tasks: ruby.yml
-  - name: Setup application
-    ansible.builtin.import_tasks: app.yml
-  - name: Setup web server
-    ansible.builtin.import_tasks: web.yml
-  - name: Cleanup packages
-    ansible.builtin.import_tasks: cleanup.yml
+    - name: Setup users
+      ansible.builtin.import_tasks: users.yml
+    - name: Setup ruby
+      ansible.builtin.import_tasks: ruby.yml
+    - name: Setup application
+      ansible.builtin.import_tasks: app.yml
+    - name: Setup web server
+      ansible.builtin.import_tasks: web.yml

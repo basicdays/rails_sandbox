@@ -1,7 +1,7 @@
 galaxy_info:
   author: basicdays
-  description: rails sandbox
-  company: Updox
+  description: rails sandbox app role
+  company: basicdays
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -14,7 +14,7 @@ galaxy_info:
   # - GPL-3.0-only
   # - Apache-2.0
   # - CC-BY-4.0
-  license: UNLICENSED
+  license: MIT
 
   min_ansible_version: '2.1'
 

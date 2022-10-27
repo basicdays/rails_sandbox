@@ -1,0 +1,47 @@
+---
+- name: Install postgresql and ansible management modules
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - postgresql
+
+- name: Create app database and user
+  become: true
+  become_user: postgres
+  block:
+    - name: Create app database
+      community.postgresql.postgresql_db:
+        db: '{{ pgdatabase }}'
+    - name: Create app database user
+      community.postgresql.postgresql_user:
+        db: '{{ pgdatabase }}'
+        name: '{{ pguser }}'
+        password: '{{ pgpassword }}'
+        expires: infinity
+    - name: Grant app database privs to app database user
+      community.postgresql.postgresql_privs:
+        db: '{{ pgdatabase }}'
+        role: '{{ pguser }}'
+        type: database
+        # todo: yes this is naive, but it gets the job done for the moment
+        privs: ALL
+
+- name: Allow external access for app database user
+  become: true
+  become_user: postgres
+  block:
+    - name: Set postgres to listen on all addresses
+      community.postgresql.postgresql_set:
+        name: listen_addresses
+        value: '*'
+      notify: Restart postgresql
+    - name: Allow app database user to authenticate via the network
+      community.postgresql.postgresql_pg_hba:
+        dest: /etc/postgresql/14/main/pg_hba.conf
+        contype: host
+        databases: '{{ pgdatabase }}'
+        users: '{{ pguser }}'
+        # todo: yes this is naive, but it gets the job done for the moment
+        source: 'all'
+        method: scram-sha-256

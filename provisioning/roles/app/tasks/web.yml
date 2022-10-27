@@ -4,7 +4,6 @@
   ansible.builtin.apt:
     update_cache: true
     pkg:
-      # Needed to help ansible become other non-priv users and move tmp files around
       - nginx
 - name: Disable default nginx site
   become: true
@@ -18,6 +17,7 @@
   ansible.builtin.copy:
     src: '{{ application_name }}.nginx'
     dest: /etc/nginx/sites-available
+  notify: Reload nginx
 - name: Enable application nginx config
   become: true
   ansible.builtin.file:

@@ -4,3 +4,8 @@
   ansible.builtin.apt:
     update_cache: true
     upgrade: dist
+- name: Cleanup packages
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true

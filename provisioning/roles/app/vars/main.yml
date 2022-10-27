@@ -2,5 +2,4 @@
 chruby_version: '0.3.9'
 ruby_install_version: '0.8.5'
 ruby_version: '3.1.2'
-application_name: rails_sandbox
 deploy_user: deploy

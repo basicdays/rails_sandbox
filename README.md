@@ -7,7 +7,8 @@ project is just a run through of the rails tutorial.
 ## Setup
 
 ```shell
-brew install chruby ruby-install vagrant ansible ansible-lint
+brew install chruby ruby-install libpq vagrant ansible ansible-lint
+brew link --force libpq
 ```
 
 ### Config chruby
@@ -26,12 +27,34 @@ source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh # Or run `brew info ch
 ruby-install $(cat .ruby-version)
 ```
 
+
 ### To switch terminal to project ruby
 
 `cd` to project directory and run the following:
 
 ```shell
 chruby .
+```
+
+
+### To install bundle
+
+`cd` to project directory and run the following:
+
+```shell
+chruby .
+bundle install
+```
+
+
+### Local Development Database
+
+Running the local database requires Docker, make sure to [install it first](https://www.docker.com/products/docker-desktop/).
+
+`cd` to project directory and run the following:
+
+```shell
+docker compose up -d
 ```
 
 

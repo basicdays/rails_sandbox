@@ -33,8 +33,3 @@
     name: '{{ ansible_user }}'
     groups: '{{ deploy_user }}'
     append: true
-- name: Add ssh authorized key (ansible_user)
-  when: ansible_user != deploy_user
-  ansible.posix.authorized_key:
-    user: '{{ ansible_user }}'
-    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
