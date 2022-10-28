@@ -28,6 +28,7 @@
     dest: /var/www/{{ application_name }}/shared/
     owner: '{{ deploy_user }}'
     group: '{{ deploy_user }}'
+    mode: 0644
 # Needed so that systemd doesn't create log files with owner of root
 - name: Create application log files
   become: true
@@ -35,6 +36,7 @@
     dest: /var/www/{{ application_name }}/shared/log/{{ item }}
     owner: '{{ deploy_user }}'
     group: '{{ deploy_user }}'
+    mode: 0644
     state: touch
     access_time: preserve
     modification_time: preserve
@@ -47,6 +49,7 @@
   ansible.builtin.copy:
     src: '{{ application_name }}.service'
     dest: /etc/systemd/system/
+    mode: 0644
   notify: Reload systemd daemon
 - name: Enable systemd application service
   become: true

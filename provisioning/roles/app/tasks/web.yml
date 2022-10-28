@@ -17,6 +17,7 @@
   ansible.builtin.copy:
     src: '{{ application_name }}.nginx'
     dest: /etc/nginx/sites-available
+    mode: 0644
   notify: Reload nginx
 - name: Enable application nginx config
   become: true
